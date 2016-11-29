@@ -1,18 +1,33 @@
 package model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
-//TODO: 1. add new fields to models (Category, CV, User)
-//TODO: 2. add hibernate annotations to fields
+@Entity
+@Table(name = "category")
 public class Category {
-
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "category_id_sequence"
+    )
+    @SequenceGenerator(name = "category_id_sequence",
+            sequenceName = "category_id_sequence", allocationSize = 1)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @ManyToMany(mappedBy = "categories")
+    private List<CV> cvList;
 
     public Category() {
+    }
+
+    public List<CV> getCvList() {
+        return cvList;
+    }
+
+    public void setCvList(List<CV> categoriesList) {
+        categoriesList = categoriesList;
     }
 
     public Category(Long id) {

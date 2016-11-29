@@ -10,21 +10,51 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-//TODO: 1. add new fields to models (Category, CV, User)
-//TODO: 2. add hibernate annotations to fields
+@Entity
+@Table(name = "cv")
 public class CV {
-
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "cv_id_sequence"
+    )
+    @SequenceGenerator(name = "cv_id_sequence",
+            sequenceName = "cv_id_sequence", allocationSize = 1)
     private Long id;
 
+    @Column(name = "title")
     private String title;
-
+    @Column(name = "text")
     private String text;
-
+    @Column(name = "education")
     private String education;
-
+    @Column(name = "experience")
     private String experience;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToMany
+    @JoinTable(name = "cv_category", joinColumns = @JoinColumn(name = "cv_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories;
 
     public CV() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 
     public CV(Long id) {
