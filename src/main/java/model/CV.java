@@ -36,7 +36,7 @@ public class CV {
     @ManyToMany
     @JoinTable(name = "cv_category", joinColumns = @JoinColumn(name = "cv_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+    private List<Category> categories = new ArrayList<Category>();
 
     public CV() {
     }
@@ -117,7 +117,27 @@ public class CV {
     }
 
     public static void CV_ROW_MAPPER(ResultSet rs, HashMap<Long, CV> cvMap) throws SQLException {
-        //TODO: 6. realize cv row mapper
+        Category category = new Category();
+        category.setId(rs.getLong("category_id"));
+        category.setName(rs.getString("name"));
+
+        Long cvId = rs.getLong("cv_id");
+        CV cv = cvMap.get(cvId);
+        if (cv == null) {
+            cv = new CV();
+            cv.setId(cvId);
+            cv.setTitle(rs.getString("title"));
+            cv.setEducation(rs.getString("education"));
+            cv.setExperience(rs.getString("experience"));
+            cv.setText(rs.getString("text"));
+            User user = new User();
+            user.setId(rs.getLong("user_id"));
+            user.setName(rs.getString("fullname"));
+            cv.setUser(user);
+        }
+
+        cv.getCategories().add(category);
+        cvMap.put(cvId, cv);
     }
 
 }

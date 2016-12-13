@@ -11,19 +11,21 @@
 <body>
 
 <div class="container">
-<#--TODO: 10. fill data-->
     <h3>Имя пользователя</h3>
     <dl class="dl-horizontal">
         <dt>Город</dt>
-        <dd></dd>
+        <dd>${user.city}</dd>
         <dt>Email</dt>
-        <dd></dd>
+        <dd>${user.email}</dd>
         <dt>Телефон</dt>
-        <dd></dd>
+        <dd>${user.phone}</dd>
     </dl>
 <#--TODO: 10. display list of cvs-->
     <ul class="list-unstyled">
             <li><a href="hrefToCurrentCv">Название резюме</a></li>
+    <#list user.resume as resume>
+        <li><a href="hrefToCurrentCv">${resume.title}</a></li>
+    </#list>
     </ul>
 </div>
 </body>

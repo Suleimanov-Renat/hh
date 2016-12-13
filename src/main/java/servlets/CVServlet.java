@@ -41,18 +41,8 @@ public class CVServlet extends HttpServlet {
     }
 
     private CV mapRequestToCV(HttpServletRequest req) {
-        Long userId = (Long.valueOf(req.getParameter("user")));
-        User user = new User();
-        user.setId(userId);
-
-        CV cv = new CV();
-        cv.setTitle(req.getParameter("title"));
-        cv.setExperience(req.getParameter("experience"));
-        cv.setText(req.getParameter("text"));
-        cv.setEducation(req.getParameter("education"));
-
-        return cv;
-
+        //TODO: 11. get params from cv create request
+        return null;
     }
 
     private void getCVList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

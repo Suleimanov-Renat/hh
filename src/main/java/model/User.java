@@ -3,6 +3,7 @@ package model;
 import javax.persistence.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -112,6 +113,29 @@ public class User {
     }
 
     public static void USER_ROW_MAPPER(ResultSet rs, HashMap<Long, User> userMap) throws SQLException {
-        //TODO: 9. realize user row mapper
+        User user;
+        long userId = rs.getLong("user_id");
+        if (userMap.get(userId) == null) {
+            user = new User(userId);
+            user.setName(rs.getString("fullname"));
+            user.setPhone(rs.getString("phone"));
+            user.setPassword(rs.getString("password"));
+            user.setEmail(rs.getString("email"));
+            user.setSalt(rs.getString("salt"));
+            user.setCity(rs.getString("city"));
+        } else {
+            user = userMap.get(userId);
+        }
+        if (user.getResume() == null) {
+            user.setResume(new ArrayList<CV>());
+        }
+        CV cv = new CV();
+        cv.setExperience(rs.getString("experience"));
+        cv.setId(rs.getLong("cv.id"));
+        cv.setText(rs.getString("text"));
+        cv.setEducation(rs.getString("education"));
+        cv.setTitle(rs.getString("title"));
+        user.getResume().add(cv);
+        userMap.put(userId, user);
     }
 }

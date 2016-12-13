@@ -7,7 +7,19 @@ import org.hibernate.Session;
 
 public class UserDaoHibernateImpl implements UserDao {
     public User getUserById(Long userId) {
-        //TODO: 8. get user by id, using hibernate
-        return null;
+        User user = null;
+        Session session = null;
+        try {
+            session = HibernateConnectionFactory.getSessionFactory().openSession();
+            user = session.get(User.class, userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error");
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return user;
     }
 }

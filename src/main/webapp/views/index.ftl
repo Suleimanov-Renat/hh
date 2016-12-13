@@ -13,7 +13,7 @@
     <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="/">Главная</a></li>
 
-        <li><a href="/user?action=get&id=1">Профиль пользователя</a></li>
+        <li><a href="/user/1">Профиль пользователя</a></li>
         <#--<li><a href="/cv?action=get&id=1">Станица просмотра резюме</a></li>-->
         <li><a href="/cv?action=list">Все резюме</a></li>
         <li><a href="/cv?action=create">Добавление резюме</a></li>

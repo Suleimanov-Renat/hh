@@ -1,43 +1,54 @@
 package servlets;
 
 import dao.UserDao;
-import dao.impl.hibernate.UserDaoHibernateImpl;
 import dao.impl.jdbc.UserDaoJDBCImpl;
-import model.CV;
 import model.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Created by Misha on 29.11.2016.
+ */
+@WebServlet("/user/*")
 public class UserServlet extends HttpServlet {
-    
-    private static final String GET_BY_ID = "get";
-    private static final String GET_LIST = "list";
-    
+    public static final String METHOD_CREATE = "create";
+    public static final String METHOD_LIST = "list";
+    UserDao userDao;
+
+    @Override
+    public void init() throws ServletException {
+        userDao = new UserDaoJDBCImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getPathInfo().substring(1);
 
-        String flag = req.getParameter("action");
-        if (flag.equals(GET_BY_ID)) {
-            getUserProfile(req,resp);
-        }  else {
-            resp.sendRedirect("/");
+        if(METHOD_CREATE.equals(action)){
+
+        } else if(METHOD_LIST.equals(action)){
+
+        } else {
+            getUserById(req, resp, action);
         }
     }
 
-    private void getUserProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        UserDao userDao = new UserDaoHibernateImpl();
-
-        String id = req.getParameter("id");
-        if(id == null) {
-            resp.sendRedirect("/");
-            return;
+    public void getUserById(HttpServletRequest req, HttpServletResponse resp, String action) throws ServletException, IOException {
+        Long id=null;
+        try {
+            id = Long.valueOf(action);
+        } catch (NumberFormatException e){
+            id=1l;
         }
-        User user = userDao.getUserById(Long.valueOf(id));
+
+        User user = userDao.getUserById(id);
         req.setAttribute("user", user);
-        getServletContext().getRequestDispatcher("/userProfile.ftl").forward(req,resp);
+
+        req.getRequestDispatcher("/userProfile.ftl").forward(req, resp);
     }
 }
