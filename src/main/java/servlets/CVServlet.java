@@ -37,12 +37,22 @@ public class CVServlet extends HttpServlet {
     }
 
     private void redirectCvCreatePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        mapRequestToCV(req);
         getServletContext().getRequestDispatcher("/cv/create.ftl").forward(req,resp);
     }
 
     private CV mapRequestToCV(HttpServletRequest req) {
-        //TODO: 11. get params from cv create request
-        return null;
+        Long userId = (Long.valueOf(req.getParameter("user")));
+        User user = new User();
+        user.setId(userId);
+
+        CV cv = new CV();
+        cv.setTitle(req.getParameter("title"));
+        cv.setExperience(req.getParameter("experience"));
+        cv.setText(req.getParameter("text"));
+        cv.setEducation(req.getParameter("education"));
+
+        return cv;
     }
 
     private void getCVList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -65,6 +75,4 @@ public class CVServlet extends HttpServlet {
         req.setAttribute("cv", cv);
         getServletContext().getRequestDispatcher("/cv/page.ftl").forward(req,resp);
     }
-
-    //TODO: 11. add method to create new CV
 }

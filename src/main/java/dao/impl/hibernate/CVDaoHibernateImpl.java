@@ -44,6 +44,13 @@ public class CVDaoHibernateImpl implements CVDao {
     }
 
     public void add(CV cv) {
-        //TODO: 12. add new CV to db by hibernate
+        Session session = null;
+        try{
+            session = HibernateConnectionFactory.getSessionFactory().openSession();
+            session.save(cv);
+            session.beginTransaction().commit();
+        }catch(NullPointerException e){
+
+        }
     }
 }

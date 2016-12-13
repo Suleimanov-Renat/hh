@@ -3,6 +3,8 @@ package dao.impl.jdbc;
 import dao.CVDao;
 import model.CV;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +56,21 @@ public class CVDaoJDBCImpl extends JDBCTemplate implements CVDao {
     }
 
     public void add(CV cv) {
-        //TODO: 12. add new CV to db by jdbc
+        Connection connection = null;
+
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("INSERT INTO cv VALUES(?,?,?,?,?,?,?)");
+            preparedStatement.setLong(1, cv.getId());
+            preparedStatement.setString(2, cv.getTitle());
+            preparedStatement.setString(3,cv.getText());
+            preparedStatement.setString(4, cv.getEducation());
+            preparedStatement.setString(5, cv.getExperience());
+            preparedStatement.setObject(6, cv.getUser());
+            preparedStatement.setObject(7,cv. getCategories());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

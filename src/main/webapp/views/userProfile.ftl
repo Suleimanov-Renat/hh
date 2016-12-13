@@ -20,11 +20,10 @@
         <dt>Телефон</dt>
         <dd>${user.phone}</dd>
     </dl>
-<#--TODO: 10. display list of cvs-->
     <ul class="list-unstyled">
-            <li><a href="hrefToCurrentCv">Название резюме</a></li>
+            <li><a href="/cv?action=get&?id=${resume.id}">Название резюме</a></li>
     <#list user.resume as resume>
-        <li><a href="hrefToCurrentCv">${resume.title}</a></li>
+        <li><a href="/cv?action=get&?id=${resume.id}">${resume.title}</a></li>
     </#list>
     </ul>
 </div>
